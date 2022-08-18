@@ -70,7 +70,8 @@ class runWPS(StepBase):
         if upstream is None:
             if outputdir is None:
                 self.setOutput(
-                    "outputdir", os.path.dirname(os.path.abspath(self.getInput("bedgzInput")[1])),
+                    "outputdir",
+                    os.path.dirname(os.path.abspath(self.getInput("bedgzInput")[1])),
                 )
             else:
                 self.setOutput("outputdir", outputdir)
@@ -106,7 +107,9 @@ class runWPS(StepBase):
 
         dirs = []
         for x in self.getInput("bedgzInput"):
-            newdir = os.path.join(self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x))
+            newdir = os.path.join(
+                self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)
+            )
             if not os.path.exists(newdir):
                 os.mkdir(newdir)
             dirs.append(newdir)
@@ -150,7 +153,9 @@ class runWPS(StepBase):
                     for i in range(multi_run_len)
                 ]
                 self.multiRun(
-                    args=args, func=processWPS, nCore=maxCore(math.ceil(self.getParam("threads") / 4)),
+                    args=args,
+                    func=processWPS,
+                    nCore=maxCore(math.ceil(self.getParam("threads") / 4)),
                 )
 
         self.stepInfoRec(cmds=[], finishFlag=finishFlag)

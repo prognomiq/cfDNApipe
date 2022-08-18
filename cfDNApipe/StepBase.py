@@ -34,7 +34,15 @@ class StepBase:
         self.__isFinished = False
         self.__startTime = self.getCurTime()
         # attentionSteps is designed for command line program only
-        self.attentionSteps = ["bismark", "bowtie2", "identifyAdapter", "BaseRecalibrator", "mutect2n", "mutect2t", "filterMutectCalls"]
+        self.attentionSteps = [
+            "bismark",
+            "bowtie2",
+            "identifyAdapter",
+            "BaseRecalibrator",
+            "mutect2n",
+            "mutect2t",
+            "filterMutectCalls",
+        ]
 
     # get stepID
     def getStepID(self,):
@@ -339,7 +347,7 @@ class StepBase:
                 ".truncated.gz_bismark_bt2",  # bisamrk WGBS single suffix
                 ".truncated.gz_bismark_bt2.deduplicated",
                 ".truncated.gz_bismark_bt2.deduplicated.bedGraph.gz.bismark.zero",
-                ".unmapped.gz"
+                ".unmapped.gz",
             ],
         )
         return final_name
@@ -575,7 +583,9 @@ class StepBase:
             mess2 = (
                 "\n         Please Stop The Program To Check The Error.         \n\n\n"
             )
-            mess_out = """\n^^^{}^^^\n{}^^^\n{}^^^\n{}^^^""".format(mess1, cmd, mess, mess2)
+            mess_out = """\n^^^{}^^^\n{}^^^\n{}^^^\n{}^^^""".format(
+                mess1, cmd, mess, mess2
+            )
             return mess_out, False
 
     # time counter for multiRun

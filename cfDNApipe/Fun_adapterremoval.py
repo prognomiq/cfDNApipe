@@ -73,7 +73,8 @@ class adapterremoval(StepBase):
         if upstream is None:
             if outputdir is None:
                 self.setOutput(
-                    "outputdir", os.path.dirname(os.path.abspath(self.getInput("fq1")[0])),
+                    "outputdir",
+                    os.path.dirname(os.path.abspath(self.getInput("fq1")[0])),
                 )
             else:
                 self.setOutput("outputdir", outputdir)
@@ -109,7 +110,9 @@ class adapterremoval(StepBase):
                 if len(adapter2) != len(self.getInput("fq2")) and len(adapter2) == 1:
                     adapter2 = adapter2 * len(self.getInput("fq2"))
             else:
-                raise commonError("Parameter upstream must from inputprocess or identifyAdapter.")
+                raise commonError(
+                    "Parameter upstream must from inputprocess or identifyAdapter."
+                )
 
             self.setParam("adapter1", adapter1)
             self.setParam("adapter2", adapter2)
@@ -121,7 +124,11 @@ class adapterremoval(StepBase):
             self.setParam("basename", basenames)
 
             self.setParam(
-                "outPrefix", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("basename")],
+                "outPrefix",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("basename")
+                ],
             )
 
             if other_params is None:
@@ -136,30 +143,45 @@ class adapterremoval(StepBase):
 
             self.setOutput(
                 "discarded",
-                [(os.path.join(self.getOutput("outputdir"), x) + ".discarded.gz") for x in self.getParam("basename")],
+                [
+                    (os.path.join(self.getOutput("outputdir"), x) + ".discarded.gz")
+                    for x in self.getParam("basename")
+                ],
             )
             self.setOutput(
                 "settings",
-                [(os.path.join(self.getOutput("outputdir"), x) + ".settings") for x in self.getParam("basename")],
+                [
+                    (os.path.join(self.getOutput("outputdir"), x) + ".settings")
+                    for x in self.getParam("basename")
+                ],
             )
             self.setOutput(
                 "pair1",
                 [
-                    (os.path.join(self.getOutput("outputdir"), x) + ".pair1.truncated.gz")
+                    (
+                        os.path.join(self.getOutput("outputdir"), x)
+                        + ".pair1.truncated.gz"
+                    )
                     for x in self.getParam("basename")
                 ],
             )
             self.setOutput(
                 "pair2",
                 [
-                    (os.path.join(self.getOutput("outputdir"), x) + ".pair2.truncated.gz")
+                    (
+                        os.path.join(self.getOutput("outputdir"), x)
+                        + ".pair2.truncated.gz"
+                    )
                     for x in self.getParam("basename")
                 ],
             )
             self.setOutput(
                 "singleton",
                 [
-                    (os.path.join(self.getOutput("outputdir"), x) + ".singleton.truncated.gz")
+                    (
+                        os.path.join(self.getOutput("outputdir"), x)
+                        + ".singleton.truncated.gz"
+                    )
                     for x in self.getParam("basename")
                 ],
             )
@@ -189,10 +211,15 @@ class adapterremoval(StepBase):
 
         elif self.getParam("type") == "single":
             self.setParam(
-                "basename", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("fq1")],
+                "basename",
+                [self.getMaxFileNamePrefixV2(x) for x in self.getInput("fq1")],
             )
             self.setParam(
-                "outPrefix", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("basename")],
+                "outPrefix",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("basename")
+                ],
             )
 
             if other_params is None:
@@ -204,15 +231,24 @@ class adapterremoval(StepBase):
 
             self.setOutput(
                 "discarded",
-                [(os.path.join(self.getOutput("outputdir"), x) + ".discarded.gz") for x in self.getParam("basename")],
+                [
+                    (os.path.join(self.getOutput("outputdir"), x) + ".discarded.gz")
+                    for x in self.getParam("basename")
+                ],
             )
             self.setOutput(
                 "settings",
-                [(os.path.join(self.getOutput("outputdir"), x) + ".settings") for x in self.getParam("basename")],
+                [
+                    (os.path.join(self.getOutput("outputdir"), x) + ".settings")
+                    for x in self.getParam("basename")
+                ],
             )
             self.setOutput(
                 "pair1",
-                [(os.path.join(self.getOutput("outputdir"), x) + ".truncated.gz") for x in self.getParam("basename")],
+                [
+                    (os.path.join(self.getOutput("outputdir"), x) + ".truncated.gz")
+                    for x in self.getParam("basename")
+                ],
             )
             self.setOutput("pair2", [])
             self.setOutput("singleton", [])

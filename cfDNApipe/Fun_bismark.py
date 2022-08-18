@@ -27,7 +27,12 @@ class bismark(StepBase):
         outputdir=None,
         threads=1,
         paired=True,
-        other_params={"-q": True, "--phred33-quals": True, "--bowtie2": True, "--un": True, },
+        other_params={
+            "-q": True,
+            "--phred33-quals": True,
+            "--bowtie2": True,
+            "--un": True,
+        },
         stepNum=None,
         upstream=None,
         verbose=True,
@@ -71,7 +76,9 @@ class bismark(StepBase):
                 self.setInput("seq1", upstream.getOutput("pair1"))
                 self.setInput("seq2", upstream.getOutput("pair2"))
             else:
-                raise commonError("Parameter upstream must from inputprocess or adapterremoval.")
+                raise commonError(
+                    "Parameter upstream must from inputprocess or adapterremoval."
+                )
 
             self.checkInputFilePath()
 
@@ -79,7 +86,8 @@ class bismark(StepBase):
         if upstream is None:
             if outputdir is None:
                 self.setOutput(
-                    "outputdir", os.path.dirname(os.path.abspath(self.getInput("fq1")[0])),
+                    "outputdir",
+                    os.path.dirname(os.path.abspath(self.getInput("fq1")[0])),
                 )
             else:
                 self.setOutput("outputdir", outputdir)
@@ -107,20 +115,37 @@ class bismark(StepBase):
         if self.getParam("type") == "paired":
             # prefix without fq, fq.gz
             self.setParam(
-                "prefix", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("seq1")],
+                "prefix",
+                [self.getMaxFileNamePrefixV2(x) for x in self.getInput("seq1")],
             )
             # filename with fq, fq.gz
-            self.setParam("filename1", [os.path.basename(x) for x in self.getInput("seq1")])
-            self.setParam("filename2", [os.path.basename(x) for x in self.getInput("seq2")])
+            self.setParam(
+                "filename1", [os.path.basename(x) for x in self.getInput("seq1")]
+            )
+            self.setParam(
+                "filename2", [os.path.basename(x) for x in self.getInput("seq2")]
+            )
 
             self.setParam(
-                "outPrefix", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("prefix")],
+                "outPrefix",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("prefix")
+                ],
             )
             self.setParam(
-                "outFilename1", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("filename1")],
+                "outFilename1",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("filename1")
+                ],
             )
             self.setParam(
-                "outFilename2", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("filename2")],
+                "outFilename2",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("filename2")
+                ],
             )
 
             if other_params is None:
@@ -129,16 +154,23 @@ class bismark(StepBase):
                 self.setParam("other_params", other_params)
 
             self.setOutput(
-                "unmapped-1", [x + "_unmapped_reads_1.fq.gz" for x in self.getParam("outFilename1")],
+                "unmapped-1",
+                [x + "_unmapped_reads_1.fq.gz" for x in self.getParam("outFilename1")],
             )
             self.setOutput(
-                "unmapped-2", [x + "_unmapped_reads_2.fq.gz" for x in self.getParam("outFilename2")],
+                "unmapped-2",
+                [x + "_unmapped_reads_2.fq.gz" for x in self.getParam("outFilename2")],
             )
             self.setOutput(
-                "bamOutput", [x + "_bismark_bt2_pe.bam" for x in self.getParam("outFilename1")],
+                "bamOutput",
+                [x + "_bismark_bt2_pe.bam" for x in self.getParam("outFilename1")],
             )
             self.setOutput(
-                "bismkRepOutput", [x + "_bismark_bt2_PE_report.txt" for x in self.getParam("outFilename1")],
+                "bismkRepOutput",
+                [
+                    x + "_bismark_bt2_PE_report.txt"
+                    for x in self.getParam("outFilename1")
+                ],
             )
 
             if len(self.getInput("seq1")) == len(self.getInput("seq2")):
@@ -171,15 +203,26 @@ class bismark(StepBase):
 
         elif self.getParam("type") == "single":
             self.setParam(
-                "prefix", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("seq1")],
+                "prefix",
+                [self.getMaxFileNamePrefixV2(x) for x in self.getInput("seq1")],
             )
-            self.setParam("filename", [os.path.basename(x) for x in self.getInput("seq1")])
+            self.setParam(
+                "filename", [os.path.basename(x) for x in self.getInput("seq1")]
+            )
 
             self.setParam(
-                "outPrefix", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("prefix")],
+                "outPrefix",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("prefix")
+                ],
             )
             self.setParam(
-                "outFilename", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("filename")],
+                "outFilename",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("filename")
+                ],
             )
 
             if other_params is None:
@@ -188,13 +231,19 @@ class bismark(StepBase):
                 self.setParam("other_params", other_params)
 
             self.setOutput(
-                "unmapped", [x + "_unmapped_reads.fq.gz" for x in self.getParam("outFilename")],
+                "unmapped",
+                [x + "_unmapped_reads.fq.gz" for x in self.getParam("outFilename")],
             )
             self.setOutput(
-                "bamOutput", [x + "_bismark_bt2.bam" for x in self.getParam("outFilename")],
+                "bamOutput",
+                [x + "_bismark_bt2.bam" for x in self.getParam("outFilename")],
             )
             self.setOutput(
-                "bismkRepOutput", [x + "_bismark_bt2_SE_report.txt" for x in self.getParam("outFilename")],
+                "bismkRepOutput",
+                [
+                    x + "_bismark_bt2_SE_report.txt"
+                    for x in self.getParam("outFilename")
+                ],
             )
 
             multi_run_len = len(self.getInput("seq1"))

@@ -128,9 +128,7 @@ class fragprofplot(StepBase):
 
         self.setOutput(
             "txtOutput",
-            os.path.join(
-                self.getOutput("outputdir"), "fragmentation_profile.txt",
-            ),
+            os.path.join(self.getOutput("outputdir"), "fragmentation_profile.txt",),
         )
 
         finishFlag = self.stepInit(caseupstream)

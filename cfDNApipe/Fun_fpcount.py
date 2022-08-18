@@ -6,7 +6,13 @@ Created on Wed Apr 8 12:51:24 2020
 """
 
 from .StepBase import StepBase
-from .cfDNA_utils import commonError, count_fragprof, divide_bin_1, divide_bin_2, maxCore
+from .cfDNA_utils import (
+    commonError,
+    count_fragprof,
+    divide_bin_1,
+    divide_bin_2,
+    maxCore,
+)
 import os
 import math
 from .Configure import Configure
@@ -79,7 +85,7 @@ class fpCounter(StepBase):
         else:
             self.setOutput("outputdir", self.getStepFolderPath())
 
-        if processtype == 1 or processtype == 2 :
+        if processtype == 1 or processtype == 2:
             self.setParam("processtype", processtype)
         else:
             raise commonError("Please refer processtype with 1 or 2.")
@@ -160,13 +166,13 @@ class fpCounter(StepBase):
                         blacklist=self.getInput("blacklistInput"),
                         gap=self.getInput("gapInput"),
                         windows=self.getOutput("bedOutput"),
-                        binlen=self.getParam("binlen")
+                        binlen=self.getParam("binlen"),
                     )
                 elif self.getParam("processtype") == 2:
                     divide_bin_2(
                         chromsize=self.getInput("chromsizeInput"),
                         windows=self.getOutput("bedOutput"),
-                        binlen=self.getParam("binlen")
+                        binlen=self.getParam("binlen"),
                     )
             if verbose:
                 if self.getParam("processtype") == 1:

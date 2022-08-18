@@ -115,7 +115,10 @@ class dbimport(StepBase):
 
         self.setOutput(
             "dbimportOutput",
-            [os.path.join(self.getOutput("outputdir"), "pon_db_" + x) for x in chromosome],
+            [
+                os.path.join(self.getOutput("outputdir"), "pon_db_" + x)
+                for x in chromosome
+            ],
         )
 
         for x in range(len(chromosome)):
@@ -151,9 +154,7 @@ class dbimport(StepBase):
 
         self.stepInfoRec(cmds=all_cmd, finishFlag=finishFlag)
 
-    def dbimportcheck(
-        self,
-    ):
+    def dbimportcheck(self,):
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 
         if not os.path.exists(fafile):

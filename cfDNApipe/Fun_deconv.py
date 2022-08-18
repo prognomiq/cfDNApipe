@@ -83,7 +83,8 @@ class deconvolution(StepBase):
         if upstream is None:
             if outputdir is None:
                 self.setOutput(
-                    "outputdir", os.path.dirname(os.path.abspath(self.getInput("mixInput"))),
+                    "outputdir",
+                    os.path.dirname(os.path.abspath(self.getInput("mixInput"))),
                 )
             else:
                 self.setOutput("outputdir", outputdir)
@@ -106,8 +107,12 @@ class deconvolution(StepBase):
         self.setParam("is_markers", is_markers)
         self.setParam("is_methylation", True)
 
-        self.setOutput("txtOutput", os.path.join(self.getOutput("outputdir"), "result.txt"))
-        self.setOutput("plotOutput", os.path.join(self.getOutput("outputdir"), "bar_chart.png"))
+        self.setOutput(
+            "txtOutput", os.path.join(self.getOutput("outputdir"), "result.txt")
+        )
+        self.setOutput(
+            "plotOutput", os.path.join(self.getOutput("outputdir"), "bar_chart.png")
+        )
 
         finishFlag = self.stepInit(upstream)
 
