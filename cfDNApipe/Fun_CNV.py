@@ -49,9 +49,15 @@ class computeCNV(StepBase):
 
         if (stepNum is None) and (caseupstream is not None) and (ctrlupstream is None):
             super(computeCNV, self).__init__(stepNum, caseupstream)
-        elif (stepNum is None) and (caseupstream is None) and (ctrlupstream is not None):
+        elif (
+            (stepNum is None) and (caseupstream is None) and (ctrlupstream is not None)
+        ):
             super(computeCNV, self).__init__(stepNum, ctrlupstream)
-        elif (stepNum is None) and (caseupstream is not None) and (ctrlupstream is not None):
+        elif (
+            (stepNum is None)
+            and (caseupstream is not None)
+            and (ctrlupstream is not None)
+        ):
             if caseupstream.getStepID() >= ctrlupstream.getStepID():
                 super(computeCNV, self).__init__(stepNum, caseupstream)
             else:
@@ -60,7 +66,11 @@ class computeCNV(StepBase):
             super(computeCNV, self).__init__(stepNum)
 
         # set casetxtInput and ctrltxtInput
-        if ((caseupstream is None) and (ctrlupstream is None)) or (caseupstream is True) or (ctrlupstream is True):
+        if (
+            ((caseupstream is None) and (ctrlupstream is None))
+            or (caseupstream is True)
+            or (ctrlupstream is True)
+        ):
             self.setInput("casetxtInput", casetxtInput)
             self.setInput("ctrltxtInput", ctrltxtInput)
         else:
@@ -103,8 +113,12 @@ class computeCNV(StepBase):
             self.setParam("threads", Configure2.getThreads())
 
         # set output files
-        self.setOutput("txtOutput", os.path.join(self.getOutput("outputdir"), "Z-score.txt"))
-        self.setOutput("plotOutput", os.path.join(self.getOutput("outputdir"), "CNV.png"))
+        self.setOutput(
+            "txtOutput", os.path.join(self.getOutput("outputdir"), "Z-score.txt")
+        )
+        self.setOutput(
+            "plotOutput", os.path.join(self.getOutput("outputdir"), "CNV.png")
+        )
 
         finishFlag = self.stepInit(caseupstream)
 
@@ -118,21 +132,31 @@ class computeCNV(StepBase):
                 # process CNV
                 genes = []  # stores the names of the chromosome arms
                 for i in range(case_multi_run_len):
-                    case_chrom[i], genes = sumChromarm(self.getInput("casetxtInput")[i], self.getInput("cytoBandInput"))
+                    case_chrom[i], genes = sumChromarm(
+                        self.getInput("casetxtInput")[i], self.getInput("cytoBandInput")
+                    )
 
                 # build the case chromarms-divided dataframe, columns are case samples, rows are chromosome arms
                 case_chrom_df = pd.DataFrame(
                     np.transpose(case_chrom),
-                    columns=[self.getMaxFileNamePrefixV2(x).split(".")[0] for x in self.getInput("casetxtInput")],
+                    columns=[
+                        self.getMaxFileNamePrefixV2(x).split(".")[0]
+                        for x in self.getInput("casetxtInput")
+                    ],
                     index=genes,
                 )
 
                 for i in range(ctrl_multi_run_len):
-                    ctrl_chrom[i], genes = sumChromarm(self.getInput("ctrltxtInput")[i], self.getInput("cytoBandInput"))
+                    ctrl_chrom[i], genes = sumChromarm(
+                        self.getInput("ctrltxtInput")[i], self.getInput("cytoBandInput")
+                    )
 
                 ctrl_chrom_df = pd.DataFrame(
                     np.transpose(ctrl_chrom),
-                    columns=[self.getMaxFileNamePrefixV2(x).split(".")[0] for x in self.getInput("ctrltxtInput")],
+                    columns=[
+                        self.getMaxFileNamePrefixV2(x).split(".")[0]
+                        for x in self.getInput("ctrltxtInput")
+                    ],
                     index=genes,
                 )
 
@@ -162,7 +186,10 @@ class computeCNV(StepBase):
                 genes = results[-1][1]
                 case_chrom_df = pd.DataFrame(
                     np.transpose(case_chrom),
-                    columns=[self.getMaxFileNamePrefixV2(x).split(".")[0] for x in self.getInput("casetxtInput")],
+                    columns=[
+                        self.getMaxFileNamePrefixV2(x).split(".")[0]
+                        for x in self.getInput("casetxtInput")
+                    ],
                     index=genes,
                 )
                 ctrl_args = [
@@ -179,7 +206,10 @@ class computeCNV(StepBase):
                 genes = results[-1][1]
                 ctrl_chrom_df = pd.DataFrame(
                     np.transpose(ctrl_chrom),
-                    columns=[self.getMaxFileNamePrefixV2(x).split(".")[0] for x in self.getInput("ctrltxtInput")],
+                    columns=[
+                        self.getMaxFileNamePrefixV2(x).split(".")[0]
+                        for x in self.getInput("ctrltxtInput")
+                    ],
                     index=genes,
                 )
                 plotCNVheatmap(

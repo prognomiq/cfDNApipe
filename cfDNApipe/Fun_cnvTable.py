@@ -23,15 +23,9 @@ class cnvTable(StepBase):
         cnrInput=None,
         outputdir=None,
         breaks=True,
-        breaks_params={
-            "--min-probes": 1,
-        },
+        breaks_params={"--min-probes": 1,},
         genemetrics=True,
-        genemetrics_params={
-            "--threshold": 0.1,
-            "--min-probes": 3,
-            "-y": True,
-        },
+        genemetrics_params={"--threshold": 0.1, "--min-probes": 3, "-y": True,},
         threads=1,
         verbose=False,
         stepNum=None,
@@ -112,7 +106,10 @@ class cnvTable(StepBase):
             self.setParam("breaks_params", breaks_params)
             self.setOutput(
                 "breaks_txt",
-                [os.path.join(self.getOutput("outputdir"), x + "_breaks.txt") for x in self.getParam("prefix")],
+                [
+                    os.path.join(self.getOutput("outputdir"), x + "_breaks.txt")
+                    for x in self.getParam("prefix")
+                ],
             )
             for i in range(figure_number):
                 cmd = self.cmdCreate(
@@ -133,29 +130,41 @@ class cnvTable(StepBase):
             self.setOutput(
                 "genemetrics_cnrs",
                 [
-                    os.path.join(self.getOutput("outputdir"), x + "_genemetrics_cnrs.txt")
+                    os.path.join(
+                        self.getOutput("outputdir"), x + "_genemetrics_cnrs.txt"
+                    )
                     for x in self.getParam("prefix")
                 ],
             )
             self.setOutput(
                 "genemetrics_cnr",
                 [
-                    os.path.join(self.getOutput("outputdir"), x + "_genemetrics_cnr.txt")
+                    os.path.join(
+                        self.getOutput("outputdir"), x + "_genemetrics_cnr.txt"
+                    )
                     for x in self.getParam("prefix")
                 ],
             )
             self.setOutput(
                 "cnrs_gene",
-                [os.path.join(self.getOutput("outputdir"), x + "_cnrs_gene.txt") for x in self.getParam("prefix")],
+                [
+                    os.path.join(self.getOutput("outputdir"), x + "_cnrs_gene.txt")
+                    for x in self.getParam("prefix")
+                ],
             )
             self.setOutput(
                 "cnr_gene",
-                [os.path.join(self.getOutput("outputdir"), x + "_cnr_gene.txt") for x in self.getParam("prefix")],
+                [
+                    os.path.join(self.getOutput("outputdir"), x + "_cnr_gene.txt")
+                    for x in self.getParam("prefix")
+                ],
             )
             self.setOutput(
                 "genemetrics_gene",
                 [
-                    os.path.join(self.getOutput("outputdir"), x + "_genemetrics_gene.txt")
+                    os.path.join(
+                        self.getOutput("outputdir"), x + "_genemetrics_gene.txt"
+                    )
                     for x in self.getParam("prefix")
                 ],
             )

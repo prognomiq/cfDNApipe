@@ -76,7 +76,10 @@ class getPileup(StepBase):
         self.setOutput(
             "getPileupOutput",
             [
-                os.path.join(self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)) + ".pileups.table"
+                os.path.join(
+                    self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)
+                )
+                + ".pileups.table"
                 for x in self.getInput("bamInput")
             ],
         )

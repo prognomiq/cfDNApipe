@@ -61,7 +61,9 @@ class qualimap(StepBase):
             ]:
                 self.setInput("bamInput", upstream.getOutput("bamOutput"))
             else:
-                raise commonError("Parameter upstream must from bamsort, rmduplicate, addRG or BQSR.")
+                raise commonError(
+                    "Parameter upstream must from bamsort, rmduplicate, addRG or BQSR."
+                )
         self.checkInputFilePath()
 
         if upstream is None:
@@ -84,7 +86,10 @@ class qualimap(StepBase):
 
         self.setOutput(
             "outdir",
-            [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("prefix")],
+            [
+                os.path.join(self.getOutput("outputdir"), x)
+                for x in self.getParam("prefix")
+            ],
         )
 
         self.setOutput(

@@ -87,7 +87,10 @@ class mutect2n(StepBase):
         self.setOutput(
             "vcfOutput",
             [
-                os.path.join(self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)) + ".unfiltered.vcf.gz"
+                os.path.join(
+                    self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)
+                )
+                + ".unfiltered.vcf.gz"
                 for x in self.getInput("bamInput")
             ],
         )
@@ -100,7 +103,10 @@ class mutect2n(StepBase):
         )
         self.setOutput(
             "outdir",
-            [os.path.join(self.getOutput("outputdir"), z) for z in self.getParam("prefix")],
+            [
+                os.path.join(self.getOutput("outputdir"), z)
+                for z in self.getParam("prefix")
+            ],
         )
 
         chromosome = ["chr%i" % x for x in range(1, 23)]
@@ -158,7 +164,9 @@ class mutect2n(StepBase):
                     "gatk",
                     "GatherVcfs",
                     "-I",
-                    " -I ".join(self.getParam("%s_vcfInput" % self.getParam("prefix")[i])),
+                    " -I ".join(
+                        self.getParam("%s_vcfInput" % self.getParam("prefix")[i])
+                    ),
                     "-O",
                     self.getOutput("vcfOutput")[i],
                     ";" "gatk",
@@ -193,9 +201,7 @@ class mutect2n(StepBase):
 
         self.stepInfoRec(cmds=all_cmd + gather_cmd, finishFlag=finishFlag)
 
-    def mutect2ncheck(
-        self,
-    ):
+    def mutect2ncheck(self,):
         """check ref exists."""
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 

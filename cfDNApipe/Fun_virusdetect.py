@@ -71,7 +71,9 @@ class virusdetect(StepBase):
                 self.setInput("seq1", upstream.getOutput("unmapped-1"))
                 self.setInput("seq2", upstream.getOutput("unmapped-2"))
             else:
-                raise commonError("Parameter upstream must from inputprocess, adapterremoval or bowtie2.")
+                raise commonError(
+                    "Parameter upstream must from inputprocess, adapterremoval or bowtie2."
+                )
 
         self.checkInputFilePath()
 
@@ -79,7 +81,8 @@ class virusdetect(StepBase):
         if upstream is None:
             if outputdir is None:
                 self.setOutput(
-                    "outputdir", os.path.dirname(os.path.abspath(self.getInput("seq1")[0])),
+                    "outputdir",
+                    os.path.dirname(os.path.abspath(self.getInput("seq1")[0])),
                 )
             else:
                 self.setOutput("outputdir", outputdir)
@@ -116,7 +119,11 @@ class virusdetect(StepBase):
             self.setParam("prefix", prefix)
 
             self.setParam(
-                "outPrefix", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("prefix")],
+                "outPrefix",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("prefix")
+                ],
             )
 
             if other_params is None:
@@ -124,8 +131,12 @@ class virusdetect(StepBase):
             else:
                 self.setParam("other_params", other_params)
 
-            self.setOutput("output", [x + ".output" for x in self.getParam("outPrefix")])
-            self.setOutput("report", [x + ".report" for x in self.getParam("outPrefix")])
+            self.setOutput(
+                "output", [x + ".output" for x in self.getParam("outPrefix")]
+            )
+            self.setOutput(
+                "report", [x + ".report" for x in self.getParam("outPrefix")]
+            )
 
             if len(self.getInput("seq1")) == len(self.getInput("seq2")):
                 multi_run_len = len(self.getInput("seq1"))
@@ -157,10 +168,15 @@ class virusdetect(StepBase):
 
         elif self.getParam("type") == "single":
             self.setParam(
-                "prefix", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("seq1")],
+                "prefix",
+                [self.getMaxFileNamePrefixV2(x) for x in self.getInput("seq1")],
             )
             self.setParam(
-                "outPrefix", [os.path.join(self.getOutput("outputdir"), x) for x in self.getParam("prefix")],
+                "outPrefix",
+                [
+                    os.path.join(self.getOutput("outputdir"), x)
+                    for x in self.getParam("prefix")
+                ],
             )
 
             if other_params is None:
@@ -168,8 +184,12 @@ class virusdetect(StepBase):
             else:
                 self.setParam("other_params", other_params)
 
-            self.setOutput("output", [x + ".output" for x in self.getParam("outPrefix")])
-            self.setOutput("report", [x + ".report" for x in self.getParam("outPrefix")])
+            self.setOutput(
+                "output", [x + ".output" for x in self.getParam("outPrefix")]
+            )
+            self.setOutput(
+                "report", [x + ".report" for x in self.getParam("outPrefix")]
+            )
 
             multi_run_len = len(self.getInput("seq1"))
 
@@ -213,4 +233,6 @@ class virusdetect(StepBase):
         ctf2Ref = [self.getParam("ref") + x for x in extension]
         for filePath in ctf2Ref:
             if not os.path.exists(filePath):
-                raise commonError("Centrifuge index file " + filePath + " don not exist!")
+                raise commonError(
+                    "Centrifuge index file " + filePath + " don not exist!"
+                )

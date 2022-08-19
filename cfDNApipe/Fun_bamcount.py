@@ -96,18 +96,18 @@ class bamCounter(StepBase):
         self.setOutput("txtOutput", txtOutput)
 
         self.setOutput(
-            "bedOutput",
-            os.path.join(
-                self.getOutput("outputdir"),
-                "windows.bed",
-            ),
+            "bedOutput", os.path.join(self.getOutput("outputdir"), "windows.bed",),
         )
 
         finishFlag = self.stepInit(upstream)
 
         if not finishFlag:
             multi_run_len = len(self.getInput("bamInput"))
-            divide_bin_2(self.getInput("chromsizeInput"), self.getOutput("bedOutput"), self.getParam("binlen"))
+            divide_bin_2(
+                self.getInput("chromsizeInput"),
+                self.getOutput("bedOutput"),
+                self.getParam("binlen"),
+            )
             if verbose:
                 for i in range(multi_run_len):
                     count_bam(

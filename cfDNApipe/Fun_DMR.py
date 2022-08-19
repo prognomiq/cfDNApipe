@@ -125,7 +125,7 @@ class computeDMR(StepBase):
                     self.getInput("casetxtInput")[i],
                     sep="\t",
                     header=0,
-                    names=["chr", "start", "end", "unmCpG", "mCpG", "mlCpG", ],
+                    names=["chr", "start", "end", "unmCpG", "mCpG", "mlCpG",],
                 )
                 if i == 0:
                     ml_df = pd.DataFrame(
@@ -157,7 +157,7 @@ class computeDMR(StepBase):
                     self.getInput("ctrltxtInput")[i],
                     sep="\t",
                     header=0,
-                    names=["chr", "start", "end", "unmCpG", "mCpG", "mlCpG", ],
+                    names=["chr", "start", "end", "unmCpG", "mCpG", "mlCpG",],
                 )
                 ml_df = pd.concat(
                     [

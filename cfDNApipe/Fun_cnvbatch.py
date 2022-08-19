@@ -208,9 +208,7 @@ class cnvbatch(StepBase):
 
         self.stepInfoRec(cmds=[cmd], finishFlag=finishFlag)
 
-    def refcheck(
-        self,
-    ):
+    def refcheck(self,):
         """check reference FilePath."""
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 

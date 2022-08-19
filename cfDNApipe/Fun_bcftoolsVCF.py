@@ -26,7 +26,7 @@ class bcftoolsVCF(StepBase):
         verbose=False,
         **kwargs
     ):
-        '''
+        """
        This funtion is for picking out designate variants from vcf by bcftools view.
        You can set the selected params in other_params and set out suffix name.
        Default setting is for selecting the somatic mutation.
@@ -49,7 +49,7 @@ class bcftoolsVCF(StepBase):
         -  verbose: bool, True means print all stdout, but will be slow; False means black stdout verbose, much faster.
         -  other_params: filter germline using {"-f": "'germline'"}, filter somatic using {"-f": "'PASS'"}.
 
-        '''
+        """
         super(bcftoolsVCF, self).__init__(stepNum, upstream)
         if (upstream is None) or (upstream is True):
             # In this situation, input file and output path should be checked

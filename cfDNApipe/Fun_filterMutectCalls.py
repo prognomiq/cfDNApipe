@@ -54,11 +54,7 @@ class filterMutectCalls(StepBase):
         super(filterMutectCalls, self).__init__(stepNum, upstream)
         chromosome = ["chr%i" % x for x in range(1, 23)]
         chromosome.extend(
-            [
-                "chrX",
-                "chrY",
-                "chrM",
-            ]
+            ["chrX", "chrY", "chrM",]
         )
 
         if upstream is None:
@@ -82,7 +78,9 @@ class filterMutectCalls(StepBase):
         if (upstream is None) or (upstream is True):
             self.setInput("vcfInput", vcfInput)
             if contaminationInput is not None:
-                self.setInput("contaminationInput", self.convertToList(contaminationInput))
+                self.setInput(
+                    "contaminationInput", self.convertToList(contaminationInput)
+                )
 
             self.setOutput(
                 "vcfOutput",
@@ -99,7 +97,8 @@ class filterMutectCalls(StepBase):
                 [
                     os.path.join(
                         self.getOutput("outputdir"),
-                        self.getMaxFileNamePrefixV2(x) + ".unfiltered.vcf.gz.filteringStats.tsv",
+                        self.getMaxFileNamePrefixV2(x)
+                        + ".unfiltered.vcf.gz.filteringStats.tsv",
                     )
                     for x in self.getInput("vcfInput")
                 ],
@@ -115,9 +114,13 @@ class filterMutectCalls(StepBase):
                     [os.path.basename(x) for x in upstream.getOutput("outdir")],
                 )
                 if "contaminationOutput" in upstream.getOutputs():
-                    self.setInput("contaminationInput", upstream.getOutput("contaminationOutput"))
+                    self.setInput(
+                        "contaminationInput", upstream.getOutput("contaminationOutput")
+                    )
                 elif contaminationInput is not None:
-                    self.setInput("contaminationInput", self.convertToList(contaminationInput))
+                    self.setInput(
+                        "contaminationInput", self.convertToList(contaminationInput)
+                    )
                 else:
                     pass
             else:
@@ -132,10 +135,20 @@ class filterMutectCalls(StepBase):
                     os.makedirs(os.path.join(self.getOutput("outputdir"), x))
 
                 vcfInput.extend(
-                    [os.path.join(self.getInput("indir"), f"{x}/{x}_{y}.unfiltered.vcf.gz") for y in chromosome]
+                    [
+                        os.path.join(
+                            self.getInput("indir"), f"{x}/{x}_{y}.unfiltered.vcf.gz"
+                        )
+                        for y in chromosome
+                    ]
                 )
                 vcfOutput.extend(
-                    [os.path.join(self.getOutput("outputdir"), f"{x}/{x}_{y}.filtered.vcf.gz") for y in chromosome]
+                    [
+                        os.path.join(
+                            self.getOutput("outputdir"), f"{x}/{x}_{y}.filtered.vcf.gz"
+                        )
+                        for y in chromosome
+                    ]
                 )
                 summaryOutput.extend(
                     [
@@ -198,7 +211,10 @@ class filterMutectCalls(StepBase):
                 )
                 all_cmd.append(tmp_cmd)
 
-        elif len(self.getInput("contaminationInput")) > 1 and len(self.getInput("vcfInput")) % 25 == 0:
+        elif (
+            len(self.getInput("contaminationInput")) > 1
+            and len(self.getInput("vcfInput")) % 25 == 0
+        ):
             for i in range(vcfnum):
                 tmp_cmd = self.cmdCreate(
                     [
@@ -235,9 +251,7 @@ class filterMutectCalls(StepBase):
 
         self.stepInfoRec(cmds=all_cmd, finishFlag=finishFlag)
 
-    def filterMutectCallscheck(
-        self,
-    ):
+    def filterMutectCallscheck(self,):
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 
         if not os.path.exists(fafile):

@@ -54,7 +54,9 @@ class contamination(StepBase):
             upstream.checkFilePath()
 
             if upstream.__class__.__name__ == "getPileup":
-                self.setInput("contaminationInput", upstream.getOutput("getPileupOutput"))
+                self.setInput(
+                    "contaminationInput", upstream.getOutput("getPileupOutput")
+                )
                 self.setOutput("bamOutput", upstream.getOutput("bamOutput"))
             else:
                 raise commonError("Parameter upstream must from getPileup.")
@@ -67,7 +69,9 @@ class contamination(StepBase):
             if outputdir is None:
                 self.setOutput(
                     "outputdir",
-                    os.path.dirname(os.path.abspath(self.getInput("contaminationInput")[0])),
+                    os.path.dirname(
+                        os.path.abspath(self.getInput("contaminationInput")[0])
+                    ),
                 )
             else:
                 self.setOutput("outputdir", outputdir)
@@ -78,7 +82,10 @@ class contamination(StepBase):
         self.setOutput(
             "contaminationOutput",
             [
-                os.path.join(self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)) + ".contamination.table"
+                os.path.join(
+                    self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)
+                )
+                + ".contamination.table"
                 for x in self.getInput("contaminationInput")
             ],
         )

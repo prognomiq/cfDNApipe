@@ -64,11 +64,15 @@ class mutect2t(StepBase):
 
             if caseupstream.__class__.__name__ == "contamination":
                 self.setInput("bamInput", caseupstream.getOutput("bamOutput"))
-                self.setOutput("contaminationOutput", caseupstream.getOutput("contaminationOutput"))
+                self.setOutput(
+                    "contaminationOutput", caseupstream.getOutput("contaminationOutput")
+                )
             elif caseupstream.__class__.__name__ in ["BQSR", "addRG"]:
                 self.setInput("bamInput", caseupstream.getOutput("bamOutput"))
             else:
-                raise commonError("Parameter case upstream must from contamination or BQSR or addRG.")
+                raise commonError(
+                    "Parameter case upstream must from contamination or BQSR or addRG."
+                )
 
         # PON file
         if ctrlupstream and ctrlupstream.__class__.__name__ == "createPON":
@@ -114,7 +118,10 @@ class mutect2t(StepBase):
 
         self.setOutput(
             "outdir",
-            [os.path.join(self.getOutput("outputdir"), z) for z in self.getParam("prefix")],
+            [
+                os.path.join(self.getOutput("outputdir"), z)
+                for z in self.getParam("prefix")
+            ],
         )
 
         chromosome = ["chr%i" % x for x in range(1, 23)]
@@ -167,9 +174,7 @@ class mutect2t(StepBase):
 
         self.stepInfoRec(cmds=all_cmd, finishFlag=finishFlag)
 
-    def mutect2tcheck(
-        self,
-    ):
+    def mutect2tcheck(self,):
 
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 
