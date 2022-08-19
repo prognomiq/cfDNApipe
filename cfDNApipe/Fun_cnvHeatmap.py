@@ -83,7 +83,9 @@ class cnvHeatmap(StepBase):
             else:
                 self.setOutput("outputdir", self.getStepFolderPath())
 
-        self.setOutput("heatmap", os.path.join(self.getOutput("outputdir"), "heatmap.pdf"))
+        self.setOutput(
+            "heatmap", os.path.join(self.getOutput("outputdir"), "heatmap.pdf")
+        )
         self.setParam("other_params", other_params)
 
         # create cmd
@@ -119,9 +121,7 @@ class cnvHeatmap(StepBase):
 
         self.stepInfoRec(cmds=[cmd], finishFlag=finishFlag)
 
-    def checkorderfile(
-        self,
-    ):
+    def checkorderfile(self,):
         """for checking the file in orderfile."""
         with open(self.getInput("orderfile")) as INPUT:
             for line in INPUT:

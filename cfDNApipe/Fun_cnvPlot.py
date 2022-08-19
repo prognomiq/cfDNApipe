@@ -23,17 +23,9 @@ class cnvPlot(StepBase):
         cnrInput=None,
         outputdir=None,
         diagram=True,
-        diagram_params={
-            "--threshold": 0.5,
-            "--min-probes": 3,
-            "-y": True,
-        },
+        diagram_params={"--threshold": 0.5, "--min-probes": 3, "-y": True,},
         scatter=True,
-        scatter_params={
-            "--y-max": 2,
-            "--y-min": -2,
-            "--segment-color": "'red'",
-        },
+        scatter_params={"--y-max": 2, "--y-min": -2, "--segment-color": "'red'",},
         threads=1,
         verbose=False,
         stepNum=None,
@@ -115,7 +107,10 @@ class cnvPlot(StepBase):
             self.setParam("diagram_params", diagram_params)
             self.setOutput(
                 "diagram_pdf",
-                [os.path.join(self.getOutput("outputdir"), x + "_diagram.pdf") for x in self.getParam("prefix")],
+                [
+                    os.path.join(self.getOutput("outputdir"), x + "_diagram.pdf")
+                    for x in self.getParam("prefix")
+                ],
             )
             for i in range(figure_number):
                 cmd = self.cmdCreate(
@@ -138,7 +133,10 @@ class cnvPlot(StepBase):
             self.setParam("scatter_params", scatter_params)
             self.setOutput(
                 "scatter_pdf",
-                [os.path.join(self.getOutput("outputdir"), x + "_scatter.pdf") for x in self.getParam("prefix")],
+                [
+                    os.path.join(self.getOutput("outputdir"), x + "_scatter.pdf")
+                    for x in self.getParam("prefix")
+                ],
             )
             for i in range(figure_number):
                 cmd = self.cmdCreate(

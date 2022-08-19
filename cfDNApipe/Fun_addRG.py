@@ -16,7 +16,15 @@ __metaclass__ = type
 
 class addRG(StepBase):
     def __init__(
-        self, bamInput=None, outputdir=None, Xmx="4G", upstream=None, stepNum=None, threads=1, verbose=False, **kwargs
+        self,
+        bamInput=None,
+        outputdir=None,
+        Xmx="4G",
+        upstream=None,
+        stepNum=None,
+        threads=1,
+        verbose=False,
+        **kwargs
     ):
         """
         This function is used for adding read group info for BAM file.
@@ -43,10 +51,16 @@ class addRG(StepBase):
             Configure.configureCheck()
             upstream.checkFilePath()
 
-            if upstream.__class__.__name__ in ["rmduplicate", "bismark_deduplicate", "bamsort"]:
+            if upstream.__class__.__name__ in [
+                "rmduplicate",
+                "bismark_deduplicate",
+                "bamsort",
+            ]:
                 self.setInput("bamInput", upstream.getOutput("bamOutput"))
             else:
-                raise commonError("Parameter upstream must from rmduplicate or bismark_deduplicate.")
+                raise commonError(
+                    "Parameter upstream must from rmduplicate or bismark_deduplicate."
+                )
 
         self.checkInputFilePath()
 
@@ -68,14 +82,23 @@ class addRG(StepBase):
         self.setOutput(
             "bamOutput",
             [
-                os.path.join(self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)) + "-RG.bam"
+                os.path.join(
+                    self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)
+                )
+                + "-RG.bam"
                 for x in self.getInput("bamInput")
             ],
         )
-        self.setParam("RGID", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("bamInput")])
-        self.setParam("RGLB", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("bamInput")])
+        self.setParam(
+            "RGID", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("bamInput")]
+        )
+        self.setParam(
+            "RGLB", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("bamInput")]
+        )
         self.setParam("RGPL", "ILLUMINA")
-        self.setParam("RGSM", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("bamInput")])
+        self.setParam(
+            "RGSM", [self.getMaxFileNamePrefixV2(x) for x in self.getInput("bamInput")]
+        )
         self.setParam("RGPU", "Null")
 
         multi_run_len = len(self.getInput("bamInput"))

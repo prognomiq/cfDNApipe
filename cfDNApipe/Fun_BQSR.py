@@ -89,7 +89,10 @@ class BQSR(StepBase):
         self.setOutput(
             "bamOutput",
             [
-                os.path.join(self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)) + "-BQSR.bam"
+                os.path.join(
+                    self.getOutput("outputdir"), self.getMaxFileNamePrefixV2(x)
+                )
+                + "-BQSR.bam"
                 for x in self.getInput("bamInput")
             ],
         )
@@ -128,9 +131,7 @@ class BQSR(StepBase):
 
         self.stepInfoRec(cmds=all_cmd, finishFlag=finishFlag)
 
-    def BQSRcheck(
-        self,
-    ):
+    def BQSRcheck(self,):
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 
         if not os.path.exists(fafile):

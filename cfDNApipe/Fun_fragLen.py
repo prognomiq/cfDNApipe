@@ -80,7 +80,7 @@ class fraglenplot(StepBase):
 
         # set maxLimit
         self.setParam("maxLimit", maxLimit)
-        
+
         self.setParam("ratio", [ratio1, ratio2])
 
         self.setOutput(
@@ -108,11 +108,9 @@ class fraglenplot(StepBase):
             ],
         )
         self.setOutput(
-            "txtOutput",
-            os.path.join(self.getOutput("outputdir"), "statistic.txt"),
+            "txtOutput", os.path.join(self.getOutput("outputdir"), "statistic.txt"),
         )
-        
-        
+
         finishFlag = self.stepInit(upstream)
 
         if not finishFlag:

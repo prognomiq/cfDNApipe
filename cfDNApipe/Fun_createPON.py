@@ -70,7 +70,9 @@ class createPON(StepBase):
             self.setParam("genome", genome)
             self.setParam("threads", threads)
             if outputdir is None:
-                self.setOutput("outputdir", os.path.dirname(self.getInput("createPONInput")[0]))
+                self.setOutput(
+                    "outputdir", os.path.dirname(self.getInput("createPONInput")[0])
+                )
             else:
                 self.setOutput("outputdir", outputdir)
 
@@ -84,7 +86,9 @@ class createPON(StepBase):
         self.setOutput(
             "createPONOutput",
             [
-                os.path.join(self.getOutput("outputdir"), os.path.basename(x) + ".vcf.gz")
+                os.path.join(
+                    self.getOutput("outputdir"), os.path.basename(x) + ".vcf.gz"
+                )
                 for x in self.getInput("createPONInput")
             ],
         )
@@ -124,9 +128,7 @@ class createPON(StepBase):
 
         self.stepInfoRec(cmds=all_cmd, finishFlag=finishFlag)
 
-    def createPONcheck(
-        self,
-    ):
+    def createPONcheck(self,):
         fafile = os.path.join(self.getParam("ref"), self.getParam("genome") + ".fa")
 
         if not os.path.exists(fafile):
