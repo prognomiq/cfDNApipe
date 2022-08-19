@@ -1647,6 +1647,10 @@ def RobustSVR(
     for i in range(numOfSamples):
         iterReference = reference
         itermixtureData = mixtureData[:, i]
+        # This update is required because Huber's T weight function results in division
+        # by zero errors in RLM when there are extreme outliers. Tukay seems to work because
+        # it is a more smooth function. Documentation for both model and weight functions
+        # is here: https://www.statsmodels.org/devel/rlm.html
         mixture = sm.RLM(
             itermixtureData, iterReference, M=sm.robust.norms.TukeyBiweight()
         ).fit()
