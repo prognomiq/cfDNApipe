@@ -1594,16 +1594,19 @@ def DECONVO(
                 bestMarker = np.zeros([np.size(selectReference, 0), 1])
                 bestMarker[:, 0] = selectMixture
                 bestNumber = selectedNumber
-        t = RobustSVR(
-            bestReference,
-            bestMarker,
-            iter_num=iter_num,
-            confidence=confidence,
-            w_thresh=w_thresh,
-            unknown=unknown,
-        )
-        bestNumberHistory.append(bestNumber)
-        proportionDeconvolution[:, i] = t[:, 0]
+        if (isinstance(bestMarker, np.ndarray) and bestMarker.size) or (
+            isinstance(bestMarker, (list, tuple)) and bestMarker
+        ):
+            t = RobustSVR(
+                bestReference,
+                bestMarker,
+                iter_num=iter_num,
+                confidence=confidence,
+                w_thresh=w_thresh,
+                unknown=unknown,
+            )
+            bestNumberHistory.append(bestNumber)
+            proportionDeconvolution[:, i] = t[:, 0]
     return proportionDeconvolution
 
 
@@ -1644,7 +1647,13 @@ def RobustSVR(
     for i in range(numOfSamples):
         iterReference = reference
         itermixtureData = mixtureData[:, i]
-        mixture = sm.RLM(itermixtureData, iterReference).fit()
+        # This update is required because Huber's T weight function results in division
+        # by zero errors in RLM when there are extreme outliers. Tukay seems to work because
+        # it is a more smooth function. Documentation for both model and weight functions
+        # is here: https://www.statsmodels.org/devel/rlm.html
+        mixture = sm.RLM(
+            itermixtureData, iterReference, M=sm.robust.norms.TukeyBiweight()
+        ).fit()
         test = mixture.params
         t = test / np.sum(test) if unknown == False else test
         c1 = np.zeros([np.size(iterReference, 0), 1])
