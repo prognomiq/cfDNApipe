@@ -1673,7 +1673,9 @@ def RobustSVR(
         memMix = np.zeros(np.size(itermixtureData))
         memMix[:] = itermixtureData[:]
         for j in range(iter_num):
-            mixture = sm.RLM(itermixtureData, iterReference).fit()
+            mixture = sm.RLM(
+                itermixtureData, iterReference, M=sm.robust.norms.TukeyBiweight()
+            ).fit()
             test = mixture.params
             t = test / np.sum(test) if unknown == False else test
             c1 = np.zeros([np.size(iterReference, 0), 1])
@@ -1715,7 +1717,7 @@ def RobustSVR(
 
 
 def weightsDesigner(ref, mix, w_thresh=10):
-    mixture = sm.RLM(mix, ref).fit()
+    mixture = sm.RLM(mix, ref, M=sm.robust.norms.TukeyBiweight()).fit()
     test = mixture.params
     x_pre = test / np.sum(test)
     weights = np.abs(np.dot(ref, x_pre))
